@@ -14,7 +14,7 @@ Translate::setLanguage("de");
 </head>
 <body class="container py-5">
 
-<img src="table_translations.png" class="mb-5">
+<img src="table_translations.png" class="mb-5" alt="database picture">
 
 <h4><?= Translate::of('headline') ?></h4>
 <form>
