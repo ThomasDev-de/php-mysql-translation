@@ -11,11 +11,9 @@
 ```sql
 create table translation
 (
-    `key`   varchar(255)                         primary key,
-    `de`      text                               not null, -- Set the default language to not null
-    `en`      text                               null, -- Add additional required language codes and set them to null 
-    `created` datetime default CURRENT_TIMESTAMP not null, -- optional, leave it out if you don't need it
-    `updated` datetime                           null on update CURRENT_TIMESTAMP -- optional, leave it out if you don't need it
+    `key`   varchar(255)     primary key,
+    `de`      text           not null, -- Set the default language to not null
+    `en`      text           null -- Add additional required language codes and set them to null 
 );
 ```
 2. Include the `Translate.php` class into your script. (It is located in the dist/ folder)
