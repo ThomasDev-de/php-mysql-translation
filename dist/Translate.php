@@ -80,11 +80,16 @@ final class Translate
      */
     public static function setPrefix(?string $prefix = null): void
     {
-        if ($prefix === "") {
+        if (empty($prefix)) {
             self::$prefix = null;
         } else {
+            // make a dot at the end
             self::$prefix = str_ends_with($prefix, ".") ? $prefix : $prefix . ".";
         }
+        // we have to delete library
+        self::$library = [];
+        self::$libraryLoaded = false;
+
     }
 
     /**
@@ -110,11 +115,18 @@ final class Translate
             self::getLibrary();
         }
 
+        if(self::$prefix !== null)
+        {
+            $key = self::$prefix.$key;
+        }
+
+
         if (isset(self::$library[self::$selectedLanguageCode][$key])) {
+
             $text = self::$library[self::$selectedLanguageCode][$key];
 
             if (!empty($params)) {
-                $text = vsprintf($text->text, $params);
+                $text = vsprintf($text, $params);
             }
 
             return $text;
@@ -153,6 +165,7 @@ final class Translate
                     $where
                 ";
             }
+
 
             $query = $pdo?->query($sql);
             $rows = $query->fetchAll();

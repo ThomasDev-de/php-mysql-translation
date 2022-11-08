@@ -3,6 +3,7 @@
 - php 8.0+
 - php pdo & mysql extension
 - MySQL or MariaDB
+---
 ## INSTALLATION
 
 1. Create required database table `translation`
@@ -65,10 +66,11 @@ private static function getPDO(): ?PDO
     return $pdo;
 }
 ```
+---
 ## USAGE
-We insert a record into the translation table
+We insert a record into the translation table.
 ```sql
-INSERT INTO translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, schön dich zu treffen!', 'Hello %s %s, nice to meet you!');
+INSERT INTO `translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, schön dich zu treffen!', 'Hello %s %s, nice to meet you!');
 ```
 | key      | de                                  | en                             |
 |----------|-------------------------------------|--------------------------------|
@@ -84,3 +86,29 @@ Translate::setLanguage('en');
 echo Translate::of('sayHello', 'John', 'Doe'); // Hello John Doe, nice to meet you!
 ?>
 ```
+As can be seen in the example above, conversion statement can be defined in the text.  
+Conversion statement start with the % character.  
+More information about this on [www.php.net](https://www.php.net/manual/en/function.sprintf.php).
+
+---
+The Translate.php class always loads all records from the `translation` table. If you want to load only certain records, it is recommended to set a `prefix` before the translation key.
+
+**One example of this:**  
+We insert a record with prefix into the translation table.
+```sql
+INSERT INTO `translation (`key`, `de`, `en`) VALUES ('signIn.headline', 'Bitte melden Sie sich an.', 'Please sign up.');
+```
+| key             | de                                  | en                             |
+|-----------------|-------------------------------------|--------------------------------|
+| sayHello        | Hallo %s %s, schön dich zu treffen! | Hello %s %s, nice to meet you! |
+| signIn.headline | Bitte melden Sie sich an.           | Please sign up.                |
+
+Call the function Translate::setPrefix(prefix)
+```php
+<?php
+Translate::setPrefix('signIn');
+echo Translate::of('headline'); // Please sign up.
+?>
+```
+
+---
