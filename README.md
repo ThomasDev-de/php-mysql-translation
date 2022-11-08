@@ -26,7 +26,7 @@ require_once "Translate.php";
 ```php
 Translate::setPDO($myPDO);
 ```
-- Otherwise take a look at the getPDO function in the Translate.php class and build your PDO object there.
+- Otherwise, take a look at the getPDO function in the Translate.php class and build your PDO object there.
 ```php
 private static function getPDO(): ?PDO
 {
@@ -70,11 +70,11 @@ We insert a record into the translation table
 ```sql
 INSERT INTO translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, schön dich zu treffen!', 'Hello %s %s, nice to meet you!');
 ```
-| key          | de           | en  |
-|--------------|--------------|-----|
-| sayHello     | Hallo %s %s, schön dich zu treffen! |  Hello %s %s, nice to meet you!   |
+| key      | de                                  | en                             |
+|----------|-------------------------------------|--------------------------------|
+| sayHello | Hallo %s %s, schön dich zu treffen! | Hello %s %s, nice to meet you! |
 
-Call the function Translate::of
+Call the function Translate::of(key, ...params)
 ```php
 <?php
 // Note, German is the default language in my example
