@@ -21,6 +21,7 @@ create table translation
 ```php
 require_once "Translate.php";
 ```
+3. Setup mysql connection
 - If you have already created a pdo object in the script, tell it to the Translate.php class
 ```php
 Translate::setPDO($myPDO);
@@ -65,3 +66,16 @@ private static function getPDO(): ?PDO
 }
 ```
 ## USAGE
+We insert a record into the translation table
+```sql
+INSERT INTO translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, schön dich zu treffen!', 'Hello %s %s, nice to meet you!');
+```
+Call the function Translate::of
+```php
+<?php
+echo Translate::of('sayHello', 'John', 'Doe'); // Hallo John Doe, schön dich zu treffen
+// Let's change the language to English
+Translate::setLanguage('de');
+echo Translate::of('sayHello', 'John', 'Doe'); // Hello John Doe, nice to meet you!
+?>
+```
