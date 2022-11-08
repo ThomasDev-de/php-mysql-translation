@@ -73,7 +73,7 @@ INSERT INTO translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, sc
 Call the function Translate::of
 ```php
 <?php
-echo Translate::of('sayHello', 'John', 'Doe'); // Hallo John Doe, schön dich zu treffen
+echo Translate::of('sayHello', 'Max', 'Mustermann'); // Hallo Max Mustermann, schön dich zu treffen
 // Let's change the language to English
 Translate::setLanguage('de');
 echo Translate::of('sayHello', 'John', 'Doe'); // Hello John Doe, nice to meet you!
