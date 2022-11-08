@@ -1,7 +1,8 @@
 <?php
 require_once "../dist/Translate.php";
+$lang = filter_input(INPUT_GET, 'lang') ?? 'de';
 Translate::setPrefix('signIn');
-Translate::setLanguage("de");
+Translate::setLanguage($lang);
 ?>
 <!doctype html>
 <html lang="en">
@@ -14,7 +15,20 @@ Translate::setLanguage("de");
 </head>
 <body class="container py-5">
 
-<img src="table_translations.png" class="mb-5" alt="database picture">
+<div class="d-flex justify-content-center mb-5">
+    <img src="table_translations.png" class="" alt="database picture">
+</div>
+
+<form action="" class="d-flex mb-3 justify-content-center">
+    <div>
+        <select class="form-select" name="lang" onchange="this.form.submit()">
+            <option></option>
+            <option>de</option>
+            <option>en</option>
+        </select>
+    </div>
+</form>
+
 
 <h4><?= Translate::of('headline') ?></h4>
 <form>
