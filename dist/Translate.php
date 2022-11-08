@@ -14,7 +14,7 @@ final class Translate
     /**
      * default language
      */
-    public const DEFAULT_LANGUAGE = 'de';
+	protected const DEFAULT_LANGUAGE = 'de';
     protected const DB_TYPE = 'mysql';
     protected const DB_CHARSET = 'utf8';
     protected const DB_HOST = '127.0.0.1';
@@ -29,6 +29,10 @@ final class Translate
     protected static bool $libraryLoaded = false;
     protected static string $selectedLanguageCode = self::DEFAULT_LANGUAGE;
 
+	/**
+	 * @param PDO $pdo
+	 * @return void
+	 */
     public static function setPDO(PDO $pdo): void
     {
         self::$pdo = $pdo;
@@ -37,7 +41,7 @@ final class Translate
     /**
      * @return PDO|null
      */
-    private static function getPDO(): ?PDO
+    protected static function getPDO(): ?PDO
     {
         if (self::$pdo !== null) {
             return self::$pdo;
@@ -135,6 +139,9 @@ final class Translate
         return "Translation not found";
     }
 
+	/**
+	 * @return void
+	 */
     private static function getLibrary(): void
     {
         if (!self::$libraryLoaded) {
@@ -143,6 +150,10 @@ final class Translate
         }
     }
 
+	/**
+	 * @param string $languageCode
+	 * @return void
+	 */
     private static function loadLibrary(string $languageCode = self::DEFAULT_LANGUAGE): void
     {
         if (!isset(self::$library[self::$selectedLanguageCode][$languageCode])) {
@@ -166,7 +177,6 @@ final class Translate
                 ";
             }
 
-
             $query = $pdo?->query($sql);
             $rows = $query->fetchAll();
 
@@ -176,6 +186,9 @@ final class Translate
         }
     }
 
+	/**
+	 * @return void
+	 */
     public static function print(): void
     {
         echo '<pre>', print_r(self::$library), '</pre>';
