@@ -121,5 +121,5 @@ Translate::setPrefix('signIn');
 echo Translate::of('headline'); // Please sign up.
 ?>
 ```
-
 ---
+Feel free to share any changes, improvements or bugs.
