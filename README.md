@@ -1,4 +1,5 @@
 # php-mysql-translation
+The PHP class makes it easier for you to translate your page using MySQL. The class is very small but very effective.The PHP class makes it easier for you to translate your page using MySQL. The class is very small but very effective.
 ## REQUIREMENT
 - php 8.0+
 - php pdo & mysql extension
@@ -65,7 +66,18 @@ private static function getPDO(): ?PDO
 }
 ```
 ---
-## USAGE
+## THE TRANSLATOR CLASS
+
+| static public function | param             | desc                                                                                                                                                                 |
+|------------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `setLanguage`          | string            | Sets the language to be fetched from the database. If the language column is `null`, the string from the default language is set.                                    |
+| `setPrefix`            | ?string           | If a prefix is set, only datasets that start with the prefix are loaded.                                                                                             |
+| `setPDO`               | ?PDO              | If you already use a `PDO` object for your script, you can pass it directly to the class. This way you avoid that a new instance is built.                           |
+| `of`                   | string, ...params | The first parameter is the name of the key to be translated. If the value of the key contains parameters, they are passed as parameters when the function is called. |
+
+---
+## EXAMPLES
+### with Params
 We insert a record into the translation table.
 ```sql
 INSERT INTO `translation (`key`, `de`, `en`) VALUES ('sayHello', 'Hallo %s %s, schön dich zu treffen!', 'Hello %s %s, nice to meet you!');
@@ -89,8 +101,9 @@ Conversion statement start with the % character.
 More information about this on [www.php.net](https://www.php.net/manual/en/function.sprintf.php).
 
 ---
-The Translate.php class always loads all records from the `translation` table. If you want to load only certain records, it is recommended to set a `prefix` before the translation key.
-
+### with Prefix
+The Translate.php class always loads all records from the `translation` table. If you want to load only certain records, it is recommended to set a `prefix` before the translation key.  
+The prefix is good for loading e.g. only translations for one page (e.g. page.clients -> page.clients.headline).
 **One example of this:**  
 We insert a record with prefix into the translation table.
 ```sql
