@@ -29,14 +29,106 @@ final class Translate
     protected static bool $libraryLoaded = false;
     protected static string $selectedLanguageCode = self::DEFAULT_LANGUAGE;
 
-	/**
-	 * @param PDO $pdo
-	 * @return void
-	 */
-    public static function setPDO(PDO $pdo): void
+    /**
+     * If you already use a `PDO` object for your script, you can pass it directly to the class.
+     * This way you avoid that a new instance is built.
+     *
+     * @param PDO|null $pdo
+     * @return void
+     */
+    public static function setPDO(?PDO $pdo): void
     {
         self::$pdo = $pdo;
     }
+
+    /**
+     * The function replaces the call to setPDO, setLanguage and setPrefix.
+     *
+     * @see self::setPDO()
+     * @see self::setLanguage()
+     * @see self::setPrefix()
+     *
+     * @param PDO|null $pdo
+     * @param string $languageCode
+     * @param string|null $prefix
+     * @return void
+     */
+    public static function prepare(?PDO $pdo = null, string $languageCode = self::DEFAULT_LANGUAGE, ?string $prefix = null): void
+    {
+        self::setPDO($pdo);
+        self::setPrefix($prefix);
+        self::setLanguage($languageCode);
+    }
+
+    /**
+     * If a prefix is set, only datasets that start with the prefix are loaded.
+     *
+     * @param ?string $prefix
+     * @return void
+     */
+    public static function setPrefix(?string $prefix = null): void
+    {
+        if (empty($prefix)) {
+            self::$prefix = null;
+        } else {
+            // make a dot at the end
+            self::$prefix = str_ends_with($prefix, ".") ? $prefix : $prefix . ".";
+        }
+        // we have to delete library
+        self::$library = [];
+        self::$libraryLoaded = false;
+    }
+
+    /**
+     * Sets the language to be fetched from the database. If the language column is <code>null</code>,
+     * the string from the default language is set.
+     *
+     * @param string $languageCode
+     * @return void
+     */
+    public static function setLanguage(string $languageCode = self::DEFAULT_LANGUAGE): void
+    {
+        if (self::$selectedLanguageCode !== $languageCode) {
+            self::$libraryLoaded = false;
+        }
+        self::$selectedLanguageCode = $languageCode;
+    }
+
+    /**
+     * The first parameter is the name of the key to be translated.
+     * If the value of the key contains parameters, they are passed as parameters when the function is called.
+     *
+     * @param string $key
+     * @param ...$params
+     * @return string
+     */
+    public static function of(string $key, ...$params): string
+    {
+        if (!self::$libraryLoaded) {
+            self::getLibrary();
+        }
+
+        if(self::$prefix !== null)
+        {
+            $key = self::$prefix.$key;
+        }
+
+
+        if (isset(self::$library[self::$selectedLanguageCode][$key])) {
+
+            $text = self::$library[self::$selectedLanguageCode][$key];
+
+            if (!empty($params)) {
+                $text = vsprintf($text, $params);
+            }
+
+            return $text;
+        }
+
+        return "Translation not found";
+    }
+
+
 
     /**
      * @return PDO|null
@@ -76,67 +168,6 @@ final class Translate
         }
 
         return $pdo;
-    }
-
-    /**
-     * @param ?string $prefix
-     * @return void
-     */
-    public static function setPrefix(?string $prefix = null): void
-    {
-        if (empty($prefix)) {
-            self::$prefix = null;
-        } else {
-            // make a dot at the end
-            self::$prefix = str_ends_with($prefix, ".") ? $prefix : $prefix . ".";
-        }
-        // we have to delete library
-        self::$library = [];
-        self::$libraryLoaded = false;
-
-    }
-
-    /**
-     * @param string $languageCode
-     * @return void
-     */
-    public static function setLanguage(string $languageCode = self::DEFAULT_LANGUAGE): void
-    {
-        if (self::$selectedLanguageCode !== $languageCode) {
-            self::$libraryLoaded = false;
-        }
-        self::$selectedLanguageCode = $languageCode;
-    }
-
-    /**
-     * @param string $key
-     * @param ...$params
-     * @return string
-     */
-    public static function of(string $key, ...$params): string
-    {
-        if (!self::$libraryLoaded) {
-            self::getLibrary();
-        }
-
-        if(self::$prefix !== null)
-        {
-            $key = self::$prefix.$key;
-        }
-
-
-        if (isset(self::$library[self::$selectedLanguageCode][$key])) {
-
-            $text = self::$library[self::$selectedLanguageCode][$key];
-
-            if (!empty($params)) {
-                $text = vsprintf($text, $params);
-            }
-
-            return $text;
-        }
-
-        return "Translation not found";
     }
 
 	/**

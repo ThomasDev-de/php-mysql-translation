@@ -1,8 +1,7 @@
 <?php
 require_once "../dist/Translate.php";
 $lang = filter_input(INPUT_GET, 'lang') ?? 'de';
-Translate::setPrefix('signIn');
-Translate::setLanguage($lang);
+Translate::prepare(languageCode: $lang, prefix: 'signIn');
 ?>
 <!doctype html>
 <html lang="en">
@@ -16,7 +15,7 @@ Translate::setLanguage($lang);
 <body class="container py-5">
 
 <div class="d-flex justify-content-center mb-5">
-    <img src="table_translations.png" class="" alt="database picture">
+    <img src="table_translations_overview.png" class="" alt="database picture">
 </div>
 
 <form action="" class="d-flex mb-3 justify-content-center">
