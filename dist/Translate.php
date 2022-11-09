@@ -1,20 +1,31 @@
 <?php
 
 /**
- * Description of Translate
+ * Description of class Translate.php
+ *
+ * The PHP class makes it easier for you to translate your page using MySQL.
+ * The class is very small but very effective.The PHP class makes it easier for you to translate your page using MySQL.
+ * The class is very small but very effective.
+ *
  * File: Translate.php
  * Created: 31.07.22 22:40
  * Deployment: PhpStorm
- *
+ * @copyright Thomas Kirsch / All rights reserved.
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @author Thomas Kirsch <t.kirsch@webcito.de>
+ *
  * @noinspection PhpUnused
  */
 final class Translate
 {
     /**
-     * default language
+     * The default language.
+     * Change this value if you want.
      */
 	protected const DEFAULT_LANGUAGE = 'de';
+
+    // Information about the database object
+
     protected const DB_TYPE = 'mysql';
     protected const DB_CHARSET = 'utf8';
     protected const DB_HOST = '127.0.0.1';
@@ -22,6 +33,8 @@ final class Translate
     protected const DB_USER_PASSWORD = 'demo_user';
     protected const DB_DATABASE = 'demo';
     protected const DB_DATABASE_PORT = 3306;
+
+    // From here on, please do not change anything in the class attributes.
 
     protected static ?PDO $pdo = null;
     protected static array $library = [];
@@ -33,7 +46,7 @@ final class Translate
      * If you already use a `PDO` object for your script, you can pass it directly to the class.
      * This way you avoid that a new instance is built.
      *
-     * @param PDO|null $pdo
+     * @param PDO|null $pdo PHP Data Objects
      * @return void
      */
     public static function setPDO(?PDO $pdo): void
@@ -47,14 +60,16 @@ final class Translate
      * @see self::setPDO()
      * @see self::setLanguage()
      * @see self::setPrefix()
+     * @link https://www.php.net/manual/en/book.pdo.php
      *
-     * @param PDO|null $pdo
-     * @param string $languageCode
-     * @param string|null $prefix
+     * @param PDO|null $pdo PHP Data Objects
+     * @param string $languageCode The language code that can also be found in the database.
+     * @param string|null $prefix The prefix that the keys have.
      * @return void
      */
     public static function prepare(?PDO $pdo = null, string $languageCode = self::DEFAULT_LANGUAGE, ?string $prefix = null): void
     {
+        self::prepare();
         self::setPDO($pdo);
         self::setPrefix($prefix);
         self::setLanguage($languageCode);
@@ -63,7 +78,7 @@ final class Translate
     /**
      * If a prefix is set, only datasets that start with the prefix are loaded.
      *
-     * @param ?string $prefix
+     * @param ?string $prefix The prefix that the keys have.
      * @return void
      */
     public static function setPrefix(?string $prefix = null): void
@@ -83,7 +98,7 @@ final class Translate
      * Sets the language to be fetched from the database. If the language column is <code>null</code>,
      * the string from the default language is set.
      *
-     * @param string $languageCode
+     * @param string $languageCode The language code that can also be found in the database.
      * @return void
      */
     public static function setLanguage(string $languageCode = self::DEFAULT_LANGUAGE): void
@@ -95,12 +110,11 @@ final class Translate
     }
 
     /**
-     * The first parameter is the name of the key to be translated.
-     * If the value of the key contains parameters, they are passed as parameters when the function is called.
+     * The function fills the library if needed and returns the translation of the passed key.
      *
-     * @param string $key
-     * @param ...$params
-     * @return string
+     * @param string $key The name of the key to be translated.
+     * @param mixed ...$params Other parameters that are passed to the string to be translated.
+     * @return string The translated string
      */
     public static function of(string $key, ...$params): string
     {
@@ -131,6 +145,7 @@ final class Translate
 
 
     /**
+     * Get the PHP Data Object
      * @return PDO|null
      */
     protected static function getPDO(): ?PDO
@@ -171,6 +186,8 @@ final class Translate
     }
 
 	/**
+     * If the library has not been loaded yet, the function triggers the loading process.
+     *
 	 * @return void
 	 */
     private static function getLibrary(): void
@@ -182,7 +199,9 @@ final class Translate
     }
 
 	/**
-	 * @param string $languageCode
+     * The function loads the library
+     *
+	 * @param string $languageCode The language code that can also be found in the database.
 	 * @return void
 	 */
     private static function loadLibrary(string $languageCode = self::DEFAULT_LANGUAGE): void
@@ -218,7 +237,9 @@ final class Translate
     }
 
 	/**
-	 * @return void
+     * Test function
+     *
+     * @return void
 	 */
     public static function print(): void
     {

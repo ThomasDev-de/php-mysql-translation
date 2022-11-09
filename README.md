@@ -82,7 +82,7 @@ private static function getPDO(): ?PDO
 | `setPrefix`             | $prefix (?string)                                        | If a prefix is set, only datasets that start with the prefix are loaded.                                                                                             |
 | `setPDO`                | $pdo (?PDO)                                              | If you already use a `PDO` object for your script, you can pass it directly to the class. This way you avoid that a new instance is built.                           |
 | `prepare`               | $pdo (?PDO), <br/>$lang (string), <br/>$prefix (?string) | The function replaces the call to setPDO, setLanguage and setPrefix                                                                                                  |
-| `of`                    | $key (string), <br/>...params (mixed)                    | The first parameter is the name of the key to be translated. If the value of the key contains parameters, they are passed as parameters when the function is called. |
+| `of`                    | $key (string), <br/>...params (mixed)                    | The function fills the library if needed and returns the translation of the passed key.<br/>The first parameter is the name of the key to be translated. If the value of the key contains parameters, they are passed as parameters when the function is called. |
 
 ---
 ## Examples
