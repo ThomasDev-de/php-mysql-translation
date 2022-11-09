@@ -1,11 +1,19 @@
 # php-mysql-translation
 The PHP class makes it easier for you to translate your page using MySQL. The class is very small but very effective.The PHP class makes it easier for you to translate your page using MySQL. The class is very small but very effective.
-## REQUIREMENT
+
+- [Requirements](#requirement)
+- [Installation](#installation)
+- [Translate::class](#translate--class)
+- [Examples](#examples)
+  * [with Params](#with-params)
+  * [with Prefix](#with-prefix)
+
+## Requirements
 - php 8.0+
 - php pdo & mysql extension
 - MySQL or MariaDB
 ---
-## INSTALLATION
+## Installation
 
 1. Create required database table `translation`
 
@@ -77,7 +85,7 @@ private static function getPDO(): ?PDO
 | `of`                    | $key (string), <br/>...params (mixed)                    | The first parameter is the name of the key to be translated. If the value of the key contains parameters, they are passed as parameters when the function is called. |
 
 ---
-## EXAMPLES
+## Examples
 ### with Params
 We insert a record into the translation table.
 ```sql
@@ -91,7 +99,7 @@ Call the function Translate::of(key, ...params)
 ```php
 <?php
 // Note, German is the default language in my example
-echo Translate::of('sayHello', 'Max', 'Mustermann'); // Hallo Max Mustermann, schön dich zu treffen
+echo Translate::of('sayHello', 'Max', 'Mustermann'); // Hallo Max Mustermann, schön dich zu treffen!
 // Let's change the language to English
 Translate::setLanguage('en');
 echo Translate::of('sayHello', 'John', 'Doe'); // Hello John Doe, nice to meet you!
