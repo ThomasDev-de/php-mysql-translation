@@ -69,7 +69,6 @@ final class Translate
      */
     public static function prepare(?PDO $pdo = null, string $languageCode = self::DEFAULT_LANGUAGE, ?string $prefix = null): void
     {
-        self::prepare();
         self::setPDO($pdo);
         self::setPrefix($prefix);
         self::setLanguage($languageCode);
