@@ -1,7 +1,7 @@
 <?php
 require_once "../dist/Translate.php";
 $lang = filter_input(INPUT_GET, 'lang') ?? 'de';
-Translate::prepare(languageCode: "de", prefix: 'signIn');
+Translate::prepare(languageCode: $lang, prefix: 'signIn');
 ?>
 <!doctype html>
 <html lang="en">
